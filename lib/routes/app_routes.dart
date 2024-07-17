@@ -16,7 +16,10 @@ final routesConfig = GoRouter(routes: [
   ),
   GoRoute(
     path: AppRoutes.createUpdate,
-    builder: (context, state) => const CreateUpdateView(),
+    builder: (context, state) {
+      print(state.pathParameters);
+      return const CreateUpdateView();
+    },
   ),
   GoRoute(
     path: AppRoutes.productsListView,

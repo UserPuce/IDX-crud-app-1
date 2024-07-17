@@ -26,58 +26,61 @@ class CardItemProduct extends StatelessWidget {
         horizontal: 10,
         vertical: 5,
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(40),
-        child:  Container(
-          color: Colors.grey[200],
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Image.network(
-                url,
-                height: 220,
-                width: double.infinity,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => const Center(
-                  child: Icon(Icons.error),
-                ),
-              ),
-              GestureDetector(
-                onTap: () => context.go('${AppRoutes.productDetail}/$id'),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        name,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
-                        ),
-                      ),
-                      Text(
-                        '\$ $price',
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                        ),
-                      ),
-                      Text(
-                        '$stock',
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                        ),
-                      ),
-                      Text(
-                        description,
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                        ),
-                      ),
-                    ],
+      child: GestureDetector(
+        onTap: () => context.push('${AppRoutes.productDetail}/$id'),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(40),
+          child:  Container(
+            color: Colors.grey[200],
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Image.network(
+                  url,
+                  height: 220,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => const Center(
+                    child: Icon(Icons.error),
                   ),
                 ),
-              )
-            ],
+                GestureDetector(
+                  onTap: () => context.go('${AppRoutes.productDetail}/$id'),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          name,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                        Text(
+                          '\$ $price',
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                        Text(
+                          '$stock',
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                        Text(
+                          description,
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

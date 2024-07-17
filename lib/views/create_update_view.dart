@@ -4,13 +4,16 @@ import '../widgets/custom_input_text.dart';
 import '../widgets/drawer_widget.dart';
 
 class CreateUpdateView extends StatelessWidget {
-  const CreateUpdateView({super.key});
+  final String? productId;
+  const CreateUpdateView({super.key, this.productId});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Create Product"),
+        title: productId == null
+            ? const Text("Update Product")
+            : const Text("Create Product"),
       ),
       drawer: const DrawerWidget(),
       body: SingleChildScrollView(
@@ -20,7 +23,7 @@ class CreateUpdateView extends StatelessWidget {
               child: Column(
                 children: [
                   const CustomInputText(),
-                  const CustomInputText(),
+                  // const CustomInputText(),
                   // CustomInputText(),
                   // CustomInputText(),
                   // CustomInputText(),

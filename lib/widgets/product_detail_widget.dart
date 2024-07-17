@@ -36,7 +36,7 @@ class ProductDetailWidget extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                         child: Image.network(
                           url,
-                          width: 200,
+                          width: 175,
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) =>
                               const Center(
@@ -92,7 +92,9 @@ class ProductDetailWidget extends StatelessWidget {
                     style: ButtonStyle(
                       backgroundColor: WidgetStateProperty.all(Colors.blue),
                     ),
-                    onPressed: () => context.push(AppRoutes.createUpdate),
+                    onPressed: () => context.push(Uri(
+                        path: AppRoutes.createUpdate,
+                        queryParameters: {'productId': id}).toString()),
                     child: const SizedBox(
                       width: double.infinity,
                       child: Center(
