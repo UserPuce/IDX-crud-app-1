@@ -42,7 +42,7 @@ final productSelectedProvider = FutureProvider<Product>((ref) async {
   return product;
 });
 
-final productByIdProvider = FutureProvider.family<Product, String>((ref, id) async {
+final productByIdProvider = FutureProvider.family<Product, String?>((ref, id) async {
   final dio = ref.watch(dioProvider);
 
   final response = await dio.get("https://pucei.edu.ec:9101/api/v2/products/$id");

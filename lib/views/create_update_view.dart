@@ -11,8 +11,16 @@ class CreateUpdateView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final productIdProv =
-        productId == null ? null : ref.watch(productByIdProvider(productId!));
+    final TextEditingController nameCtrl = TextEditingController();
+    final TextEditingController priceCtrl = TextEditingController();
+    final TextEditingController stockCtrl = TextEditingController();
+    final TextEditingController urlImageCtrl = TextEditingController();
+    final TextEditingController descriptionCtrl = TextEditingController();
+
+
+
+    final productIdProv = productId == null ? null : ref.watch(productByIdProvider(productId!));
+
     return Scaffold(
       appBar: AppBar(
         title: productId == null
@@ -29,7 +37,44 @@ class CreateUpdateView extends ConsumerWidget {
                   if (productIdProv != null)
                     productIdProv.when(
                         data: (product) {
-                          return Text("$product");
+                          return Column(
+                            children: [
+                              const Text("Nombre"),
+                              CustomInputText(
+                                label: product.name,
+                                hintText: product.name,
+                                controller: nameCtrl,
+                              ),
+
+                              const Text("Precio"),
+                              CustomInputText(
+                                label: product.price.toString(),
+                                hintText: product.price.toString(),
+                                controller: priceCtrl,
+                              ),
+
+                              const Text("Stock"),
+                              CustomInputText(
+                                label: product.stock.toString(),
+                                hintText: product.stock.toString(),
+                                controller: stockCtrl,
+                              ),
+
+                              const Text("Imagen"),
+                              CustomInputText(
+                                label: product.urlImage,
+                                hintText: product.urlImage,
+                                controller: urlImageCtrl,
+                              ),
+
+                              const Text("Descripción"),
+                              CustomInputText(
+                                label: product.description,
+                                hintText: product.description,
+                                controller: descriptionCtrl,
+                              ),
+                            ],
+                          );
                         },
                         error: (err, trc) {
                           return Column(
@@ -38,14 +83,7 @@ class CreateUpdateView extends ConsumerWidget {
                         },
                         loading: ()=> const CircularProgressIndicator()),
 
-                  const CustomInputText(),
-                  // const CustomInputText(),
-                  // CustomInputText(),
-                  // CustomInputText(),
-                  // CustomInputText(),
-                  // CustomInputText(),
-                  // CustomInputText(),
-                  // CustomInputText(),
+                  
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: ElevatedButton(
@@ -53,11 +91,11 @@ class CreateUpdateView extends ConsumerWidget {
                           backgroundColor:
                               WidgetStateProperty.all(Colors.blue)),
                       onPressed: () {},
-                      child: const SizedBox(
+                      child: SizedBox(
                         width: double.infinity,
                         child: Text(
-                          "Crear o Actualizar",
-                          style: TextStyle(
+                          productId == null ?"Crear": "Actualizar",
+                          style: const TextStyle(
                             color: Colors.white,
                           ),
                         ),

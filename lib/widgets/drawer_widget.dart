@@ -19,7 +19,7 @@ class DrawerWidget extends StatelessWidget {
           const Text("Menu"),
           CustomTileWidget(lead: Icons.home_outlined, label: "Home", route: AppRoutes.home,),
           CustomTileWidget(lead: Icons.document_scanner_outlined, label: "List", route: AppRoutes.productsListView,),
-          CustomTileWidget(lead: Icons.find_in_page_outlined, label: "Detail", route: AppRoutes.productDetail,),
+          // CustomTileWidget(lead: Icons.find_in_page_outlined, label: "Detail", route: AppRoutes.productDetail,),
           CustomTileWidget(lead: Icons.add_outlined, label: "Create", route: AppRoutes.createUpdate,),
           
         ],
