@@ -23,6 +23,7 @@ final productsProvider = FutureProvider<List<Product>>((ref) async {
   } ).toList();
 
   return products;
+  // return response.data!.map((item) => item).toList();
 });
 
 // productSelected = producto seleccionado en la vista product_detail_view
@@ -98,3 +99,19 @@ final updateProductProvider = FutureProvider.family<Product, Product>(  (ref, pr
   return response.data!;
   
 });
+// Delete product
+final deleteProductProvider = FutureProvider.family<Product, String>(  (ref, id) async {
+  final dio = ref.watch(dioProvider);
+
+  final response = await dio.delete<Product>('https://pucei.edu.ec:9101/api/v2/products/$id');
+
+  if( response.statusCode != 200 ){
+    return Product(id: '', name: 'err', price: 0, stock: 0, urlImage: '', description: 'description', v: 0);
+  }
+
+  return response.data!;
+  
+});
+
+
+

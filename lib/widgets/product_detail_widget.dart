@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:myapp/providers/product_provider.dart';
 
 import '../routes/app_routes.dart';
 
-class ProductDetailWidget extends StatelessWidget {
+class ProductDetailWidget extends ConsumerWidget {
   final String id;
   final String url;
   final String name;
@@ -21,7 +23,7 @@ class ProductDetailWidget extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
         Column(
@@ -111,13 +113,69 @@ class ProductDetailWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                  )
+                  ),
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all(Colors.red),
+                    ),
+                    onPressed: () {
+                      showDeleteDialog(context, ref);
+                      ref.invalidate(productsProvider);
+                    },
+                    child: const SizedBox(
+                      width: double.infinity,
+                      child: Center(
+                        child: Text(
+                          "Eliminar",
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             )
           ],
         ),
       ],
+    );
+  }
+
+  void showDeleteDialog(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirmación'),
+          content: const Text('¿Estás seguro de que deseas eliminar este producto?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancelar'),
+              onPressed: () {
+                // Navigator.of(context).pop();
+                context.pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Eliminar'),
+              onPressed: () {
+                // 1. llamamos al provider
+                ref.read(deleteProductProvider(id));
+
+                // 2. redirigimos
+                context.push(AppRoutes.productsListView);
+
+                // 3. invalidamos
+                ref.invalidate(productsProvider);
+                
+
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
