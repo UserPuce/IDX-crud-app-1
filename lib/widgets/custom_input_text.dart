@@ -5,12 +5,15 @@ class CustomInputText extends StatelessWidget {
   final String? hintText;
   final String? helper;
   final TextEditingController controller;
+  final TextInputType keyboardType;
+
   const CustomInputText({
     super.key,
     required this.label,
     this.hintText,
     this.helper,
     required this.controller,
+    this.keyboardType = TextInputType.text
   });
 
   @override
@@ -19,6 +22,7 @@ class CustomInputText extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
         controller: controller,
+        keyboardType: keyboardType,
         decoration: InputDecoration(
           label: Text(label.length > 40 ? "${label.substring(0,40)}...": label),
           hintText: hintText,
