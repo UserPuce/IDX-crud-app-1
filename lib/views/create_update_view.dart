@@ -117,8 +117,8 @@ class CreateUpdateView extends ConsumerWidget {
                           ref.read(updateProductProvider(productSubmit));
                         }
 
-                        ref.invalidate(productsProvider);
                         context.push(AppRoutes.productsListView);
+                        ref.invalidate(productsProvider);
                       },
                       child: Text(
                         productId == null ? 'Create' : 'Update',
