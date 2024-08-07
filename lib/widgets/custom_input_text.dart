@@ -13,7 +13,7 @@ class CustomInputText extends StatelessWidget {
     this.hintText,
     this.helper,
     required this.controller,
-    this.keyboardType = TextInputType.text
+    this.keyboardType = TextInputType.text,
   });
 
   @override
@@ -24,17 +24,15 @@ class CustomInputText extends StatelessWidget {
         controller: controller,
         keyboardType: keyboardType,
         decoration: InputDecoration(
-          label: Text(label.length > 40 ? "${label.substring(0,40)}...": label),
+          labelText: label.length > 40 ? "${label.substring(0, 40)}..." : label,
           hintText: hintText,
-          helper: helper != null
-              ? Text(
-                  helper!,
-                  style: const TextStyle(fontSize: 11),
-                )
-              : null,
+          helperText: helper,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15.0),
           ),
+          filled: true,
+          fillColor: Colors.grey[200],
+          contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
         ),
       ),
     );

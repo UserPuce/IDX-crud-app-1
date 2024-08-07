@@ -18,11 +18,15 @@ class CustomTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Theme.of(context).hoverColor),
+      decoration: BoxDecoration(
+        color: Theme.of(context).hoverColor,
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       child: ListTile(
-        leading: Icon(lead),
-        title: Text(label),
-        trailing: Icon(end),
+        leading: Icon(lead, color: Theme.of(context).primaryColor),
+        title: Text(label, style: TextStyle(color: Theme.of(context).primaryColor)),
+        trailing: Icon(end, color: Theme.of(context).primaryColor),
         onTap: () => context.push(route),
       ),
     );

@@ -11,17 +11,24 @@ class DrawerWidget extends StatelessWidget {
     return Container(
       width: size.width * 0.6,
       height: double.infinity,
-      decoration:
-          BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor),
+      decoration: BoxDecoration(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.3),
+            blurRadius: 10,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
       child: Column(
         children: [
           const SizedBox(height: 35),
-          const Text("Menu"),
-          CustomTileWidget(lead: Icons.home_outlined, label: "Home", route: AppRoutes.home,),
-          CustomTileWidget(lead: Icons.document_scanner_outlined, label: "List", route: AppRoutes.productsListView,),
-          // CustomTileWidget(lead: Icons.find_in_page_outlined, label: "Detail", route: AppRoutes.productDetail,),
-          CustomTileWidget(lead: Icons.add_outlined, label: "Create", route: AppRoutes.createUpdate,),
-          
+          const Text("Menu", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          const Divider(),
+          CustomTileWidget(lead: Icons.home_outlined, label: "Home", route: AppRoutes.home),
+          CustomTileWidget(lead: Icons.document_scanner_outlined, label: "List", route: AppRoutes.productsListView),
+          CustomTileWidget(lead: Icons.add_outlined, label: "Create", route: AppRoutes.createUpdate),
         ],
       ),
     );

@@ -24,111 +24,127 @@ class CreateUpdateView extends ConsumerWidget {
         ? ref.watch(productEmptyProvider)
         : ref.watch(productByIdProvider(productId!));
 
-
-
     return Scaffold(
       appBar: AppBar(
-        title: productId == null
-            ? const Text("Create Product")
-            : const Text("Update Product"),
+        title: Text(
+          productId == null ? "Create Product" : "Update Product",
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.blueAccent,
       ),
       drawer: const DrawerWidget(),
       body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Form(
-              child: Column(
-                children: [
-                  productIdProv.when(
-                      data: (product) {
-                        if(productId != null){
-                          // Update inputs controllers
-                          nameCtrl.text = product.name;
-                          priceCtrl.text = product.price.toString();
-                          stockCtrl.text = product.stock.toString();
-                          urlImageCtrl.text = product.urlImage;
-                          descriptionCtrl.text = product.description;
-                        }
-                        return Column(
-                          children: [
-                            const Text("Name product"),
-                            CustomInputText(
-                              label: 'Name product',
-                              hintText: product.name,
-                              controller: nameCtrl,
-                            ),
-                            const Text("Price"),
-                            CustomInputText(
-                              label: 'Price',
-                              hintText: product.price.toString(),
-                              controller: priceCtrl,
-                              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                            ),
-                            const Text("Stock"),
-                            CustomInputText(
-                              label: 'Stock',
-                              hintText: product.stock.toString(),
-                              controller: stockCtrl,
-                              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                            ),
-                            const Text("URL Image"),
-                            CustomInputText(
-                              label: 'URL Image',
-                              hintText: product.urlImage,
-                              controller: urlImageCtrl,
-                            ),
-                            const Text("Description"),
-                            CustomInputText(
-                              label: 'Description',
-                              hintText: product.description,
-                              controller: descriptionCtrl,
-                            ),
-                          ],
-                        );
-                      },
-                      error: (err, trc) {
-                        return Column(
-                          children: [Text('$err'), Text('$trc')],
-                        );
-                      },
-                      loading: () => const CircularProgressIndicator()),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                          backgroundColor:
-                              WidgetStateProperty.all(Colors.blue)),
-                      onPressed: () async {
-                        // print();
-                        final Product productSubmit = Product(
-                            id: productId ?? '',
-                            name: nameCtrl.text,
-                            price: double.parse(priceCtrl.text),
-                            stock: double.parse(stockCtrl.text),
-                            urlImage: urlImageCtrl.text,
-                            description: descriptionCtrl.text,
-                            v: 0);
-
-                        if(productId == null){
-                          // Crear
-                          ref.read(createProductProvider(productSubmit));
-                        }else {
-                          // Actualizar
-                          ref.read(updateProductProvider(productSubmit));
-                        }
-
-                        context.push(AppRoutes.productsListView);
-                        ref.invalidate(productsProvider);
-                      },
-                      child: Text(
-                        productId == null ? 'Create' : 'Update',
-                        style: const TextStyle(color: Colors.white),
+            productIdProv.when(
+              data: (product) {
+                if (productId != null) {
+                  nameCtrl.text = product.name;
+                  priceCtrl.text = product.price.toString();
+                  stockCtrl.text = product.stock.toString();
+                  urlImageCtrl.text = product.urlImage;
+                  descriptionCtrl.text = product.description;
+                }
+                return Form(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 20),
+                      const Text(
+                        "Product Details",
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
+                      const SizedBox(height: 20),
+                      CustomInputText(
+                        label: 'Name product',
+                        hintText: product.name,
+                        controller: nameCtrl,
+                      ),
+                      const SizedBox(height: 20),
+                      CustomInputText(
+                        label: 'Price',
+                        hintText: product.price.toString(),
+                        controller: priceCtrl,
+                        keyboardType:
+                            const TextInputType.numberWithOptions(decimal: true),
+                      ),
+                      const SizedBox(height: 20),
+                      CustomInputText(
+                        label: 'Stock',
+                        hintText: product.stock.toString(),
+                        controller: stockCtrl,
+                        keyboardType:
+                            const TextInputType.numberWithOptions(decimal: true),
+                      ),
+                      const SizedBox(height: 20),
+                      CustomInputText(
+                        label: 'URL Image',
+                        hintText: product.urlImage,
+                        controller: urlImageCtrl,
+                      ),
+                      const SizedBox(height: 20),
+                      CustomInputText(
+                        label: 'Description',
+                        hintText: product.description,
+                        controller: descriptionCtrl,
+                      ),
+                      const SizedBox(height: 40),
+                      Center(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 40,
+                              vertical: 15,
+                            ), backgroundColor: Colors.blueAccent,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          onPressed: () async {
+                            final Product productSubmit = Product(
+                              id: productId ?? '',
+                              name: nameCtrl.text,
+                              price: double.parse(priceCtrl.text),
+                              stock: double.parse(stockCtrl.text),
+                              urlImage: urlImageCtrl.text,
+                              description: descriptionCtrl.text,
+                              v: 0,
+                            );
+
+                            if (productId == null) {
+                              // Create
+                              ref.read(createProductProvider(productSubmit));
+                            } else {
+                              // Update
+                              ref.read(updateProductProvider(productSubmit));
+                            }
+
+                            context.push(AppRoutes.productsListView);
+                            ref.invalidate(productsProvider);
+                          },
+                          child: Text(
+                            productId == null ? 'Create' : 'Update',
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            )
+                );
+              },
+              error: (err, trc) {
+                return Column(
+                  children: [Text('$err'), Text('$trc')],
+                );
+              },
+              loading: () => const Center(child: CircularProgressIndicator()),
+            ),
           ],
         ),
       ),

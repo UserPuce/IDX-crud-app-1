@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myapp/providers/product_provider.dart';
-
 import '../routes/app_routes.dart';
 
 class ProductDetailWidget extends ConsumerWidget {
@@ -12,6 +11,7 @@ class ProductDetailWidget extends ConsumerWidget {
   final double price;
   final double stock;
   final String description;
+
   const ProductDetailWidget({
     super.key,
     required this.id,
@@ -26,118 +26,117 @@ class ProductDetailWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
-        Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Column(
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+          child: Column(
+            children: [
+              Row(
                 children: [
-                  Row(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image.network(
-                          url,
-                          width: 175,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) =>
-                              const Center(
-                            child: Icon(Icons.error),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 125,
-                              child: Text(
-                                name,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20.0,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 125,
-                              child: Text(
-                                description,
-                                style: const TextStyle(
-                                  fontSize: 10.0,
-                                ),
-                              ),
-                            ),
-                            Text(
-                              '\$ $price', // Formato de precio
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: 18.0,
-                              ),
-                            ),
-                            Text(
-                              'Stock: $stock', // Formato de precio
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: 18.0,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all(Colors.blue),
-                    ),
-                    onPressed: () {
-                      context.push(
-                        Uri(
-                          path: AppRoutes.createUpdate,
-                          queryParameters: {'productId': id},
-                        ).toString(),
-                      );
-                    },
-                    child: const SizedBox(
-                      width: double.infinity,
-                      child: Center(
-                        child: Text(
-                          "Actualizar",
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      url,
+                      width: 175,
+                      height: 175,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) =>
+                          const Center(child: Icon(Icons.error)),
                     ),
                   ),
-                  ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all(Colors.red),
-                    ),
-                    onPressed: () {
-                      showDeleteDialog(context, ref);
-                      ref.invalidate(productsProvider);
-                    },
-                    child: const SizedBox(
-                      width: double.infinity,
-                      child: Center(
-                        child: Text(
-                          "Eliminar",
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          name,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24.0,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          description,
+                          style: const TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.grey,
+                          ),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          '\$ $price',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.green[700],
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      ),
+                        const SizedBox(height: 5),
+                        Text(
+                          'Stock: $stock',
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                            fontSize: 18.0,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
-            )
-          ],
+              const SizedBox(height: 20),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueAccent,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 32.0,
+                    vertical: 12.0,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                onPressed: () {
+                  context.push(
+                    Uri(
+                      path: AppRoutes.createUpdate,
+                      queryParameters: {'productId': id},
+                    ).toString(),
+                  );
+                },
+                child: const Text(
+                  "Actualizar",
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+              ),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.redAccent,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 32.0,
+                    vertical: 12.0,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                onPressed: () {
+                  showDeleteDialog(context, ref);
+                  ref.invalidate(productsProvider);
+                },
+                child: const Text(
+                  "Eliminar",
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );
@@ -154,23 +153,17 @@ class ProductDetailWidget extends ConsumerWidget {
             TextButton(
               child: const Text('Cancelar'),
               onPressed: () {
-                // Navigator.of(context).pop();
                 context.pop();
               },
             ),
             TextButton(
               child: const Text('Eliminar'),
               onPressed: () {
-                // 1. llamamos al provider
                 ref.read(deleteProductProvider(id));
 
-                // 2. redirigimos
                 context.push(AppRoutes.productsListView);
 
-                // 3. invalidamos
                 ref.invalidate(productsProvider);
-                
-
               },
             ),
           ],

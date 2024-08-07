@@ -9,38 +9,57 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Home View"),
+        centerTitle: true,
+        elevation: 5,
+        backgroundColor: Colors.blueAccent,
       ),
       drawer: const DrawerWidget(),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadiusDirectional.circular(20),
-              child: const Image(
-                height: 350,
-                fit: BoxFit.contain,
-                image: NetworkImage(
-                    "https://images.unsplash.com/photo-1708708553991-6a97854e151f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTcxNzYzMDU3Ng&ixlib=rb-4.0.3&q=80&w=350"),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: const Image(
+                  height: 350,
+                  fit: BoxFit.cover,
+                  image: NetworkImage(
+                      "https://papelyt.com/web/image/7654-796a65af/back%20to%20school%20pink%20school_6494856.webp"),
+                ),
               ),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 25,
-                vertical: 10,
+              const SizedBox(height: 20),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: const Text(
+                  "Todo lo que buscas en papelería y tecnología.",
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ),
-              child: const Text(
-                "Encuentra todo lo que necesitas en un solo lugar, solo aquí.",
-                style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
+              const SizedBox(height: 40),
+              Center(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: const Text(
+                    "Explora las opciones del menú 👌",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontStyle: FontStyle.normal,
+                      color: Colors.blueGrey,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
               ),
-            ),
-            Container(
-              padding: const EdgeInsets.only(top: 40),
-              child: const Text(
-                "Explora las opciones del menu 👌",
-                style: TextStyle(fontSize: 14, fontStyle: FontStyle.normal),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
