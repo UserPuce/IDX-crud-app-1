@@ -83,7 +83,7 @@ class CardItemProduct extends StatelessWidget {
                     onPressed: () {
                       // Handle button press
                     },
-                    child: const Text('Buy Now'),
+                    child: const Text('Comprar Now'),
                   ),
                 ),
               ],

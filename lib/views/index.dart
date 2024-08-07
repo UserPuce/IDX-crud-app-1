@@ -1,4 +1,4 @@
-
+//Exporto para poder usar en otras partes del codigo las vistas
 export 'package:myapp/views/create_update_view.dart';
 export 'package:myapp/views/home_view.dart';
 export 'package:myapp/views/product_detail_view.dart';

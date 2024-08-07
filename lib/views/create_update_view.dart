@@ -68,7 +68,7 @@ class CreateUpdateView extends ConsumerWidget {
                       ),
                       const SizedBox(height: 20),
                       CustomInputText(
-                        label: 'Price',
+                        label: 'Prices',
                         hintText: product.price.toString(),
                         controller: priceCtrl,
                         keyboardType:
@@ -129,6 +129,7 @@ class CreateUpdateView extends ConsumerWidget {
                             ref.invalidate(productsProvider);
                           },
                           child: Text(
+                            //uso la misma vista dependiendo si es create o update
                             productId == null ? 'Create' : 'Update',
                             style: const TextStyle(color: Colors.white),
                           ),
