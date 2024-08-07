@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../providers/login_provider.dart';
 import 'package:myapp/widgets/drawer_widget.dart';
+import 'package:myapp/widgets/login_widget.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends ConsumerWidget {
   const HomeView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final loginState = ref.watch(loginProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Home View"),
@@ -20,6 +25,29 @@ class HomeView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              if (loginState == null)
+                const LoginWidget()
+              else
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Welcome, $loginState!',
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueAccent,
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.logout, color: Colors.redAccent),
+                      onPressed: () {
+                        ref.read(loginProvider.notifier).logout();
+                      },
+                    ),
+                  ],
+                ),
+              const SizedBox(height: 40),
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: const Image(
