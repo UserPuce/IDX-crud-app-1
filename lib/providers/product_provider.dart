@@ -10,17 +10,16 @@ final dioProvider = Provider<Dio>((ref) => Dio(BaseOptions(
       receiveTimeout: const Duration(seconds: 3),
     )));
 
-
 final productsProvider = FutureProvider<List<Product>>((ref) async {
   final dio = ref.watch(dioProvider);
 
-  final response = await dio.get("https://pucei.edu.ec:9101/api/v2/products");
+  final response = await dio.get("http://141.148.55.107:9101/api/v2/products");
 
   if (response.statusCode != 200) return [];
 
-  final products = (response.data as List<dynamic>).map( (item) {
+  final products = (response.data as List<dynamic>).map((item) {
     return Product.fromJson(item);
-  } ).toList();
+  }).toList();
 
   return products;
   // return response.data!.map((item) => item).toList();
@@ -31,7 +30,7 @@ final productsProvider = FutureProvider<List<Product>>((ref) async {
 // final productSelectedProvider = FutureProvider<Product>((ref) async {
 //   final dio = ref.watch(dioProvider);
 
-//   final response = await dio.get("https://pucei.edu.ec:9101/api/v2/products");
+//   final response = await dio.get("http://141.148.55.107:9101/api/v2/products");
 
 //   if (response.statusCode != 200) return Product(id: "", name: "err", price: 0, stock: 0, urlImage: "", description: "err", v: 0);
 
@@ -41,10 +40,9 @@ final productsProvider = FutureProvider<List<Product>>((ref) async {
 // });
 
 final productByIdProvider = FutureProvider.family<Product, String?>((ref, id) async {
-  
   final dio = ref.watch(dioProvider);
 
-  final response = await dio.get("https://pucei.edu.ec:9101/api/v2/products/$id");
+  final response = await dio.get("http://141.148.55.107:9101/api/v2/products/$id");
 
   if (response.statusCode != 200) return Product(id: "", name: "err", price: 0, stock: 0, urlImage: "", description: "err", v: 0);
 
@@ -54,16 +52,15 @@ final productByIdProvider = FutureProvider.family<Product, String?>((ref, id) as
 });
 
 // empty product to create
-final productEmptyProvider = FutureProvider(  (ref) {
+final productEmptyProvider = FutureProvider((ref) {
   return Product(id: '', name: 'err', price: 0, stock: 0, urlImage: '', description: 'description', v: 0);
 });
 
-
 // Create product
-final createProductProvider = FutureProvider.family<Product, Product>(  (ref, product) async {
+final createProductProvider = FutureProvider.family<Product, Product>((ref, product) async {
   final dio = ref.watch(dioProvider);
 
-  final response = await dio.post<Product>('https://pucei.edu.ec:9101/api/v2/products', data: {
+  final response = await dio.post<Product>('http://141.148.55.107:9101/api/v2/products', data: {
     "name": product.name,
     "price": product.price,
     "stock": product.stock,
@@ -71,20 +68,18 @@ final createProductProvider = FutureProvider.family<Product, Product>(  (ref, pr
     "description": product.description
   });
 
-  if( response.statusCode != 201 ){
+  if (response.statusCode != 201) {
     return Product(id: '', name: 'err', price: 0, stock: 0, urlImage: '', description: 'description', v: 0);
   }
 
   return response.data!;
-  
 });
-
 
 // Update product
-final updateProductProvider = FutureProvider.family<Product, Product>(  (ref, product) async {
+final updateProductProvider = FutureProvider.family<Product, Product>((ref, product) async {
   final dio = ref.watch(dioProvider);
 
-  final response = await dio.patch<Product>('https://pucei.edu.ec:9101/api/v2/products/${product.id}', data: {
+  final response = await dio.patch<Product>('http://141.148.55.107:9101/api/v2/products/${product.id}', data: {
     "name": product.name,
     "price": product.price,
     "stock": product.stock,
@@ -92,26 +87,22 @@ final updateProductProvider = FutureProvider.family<Product, Product>(  (ref, pr
     "description": product.description
   });
 
-  if( response.statusCode != 200 ){
+  if (response.statusCode != 200) {
     return Product(id: '', name: 'err', price: 0, stock: 0, urlImage: '', description: 'description', v: 0);
   }
 
   return response.data!;
-  
 });
+
 // Delete product
-final deleteProductProvider = FutureProvider.family<Product, String>(  (ref, id) async {
+final deleteProductProvider = FutureProvider.family<Product, String>((ref, id) async {
   final dio = ref.watch(dioProvider);
 
-  final response = await dio.delete<Product>('https://pucei.edu.ec:9101/api/v2/products/$id');
+  final response = await dio.delete<Product>('http://141.148.55.107:9101/api/v2/products/$id');
 
-  if( response.statusCode != 200 ){
+  if (response.statusCode != 200) {
     return Product(id: '', name: 'err', price: 0, stock: 0, urlImage: '', description: 'description', v: 0);
   }
 
   return response.data!;
-  
 });
-
-
-
